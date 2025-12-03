@@ -44,6 +44,95 @@ As the series continues, each section will be populated with Bicep, policies, an
 
 ---
 
+##  How to Use This Repository
+
+This repository provides the Bicep templates and structure required to deploy the foundational **CAF-aligned management group hierarchy** using Azure Verified Modules (AVM).
+
+Follow the steps below to deploy the hierarchy into your Azure tenant.
+
+---
+
+### **1. Login to the Correct Tenant**
+
+Clear any previous sessions:
+
+```bash
+az account clear
+```
+
+Login:
+
+```bash
+az login --tenant <YourTenantID>
+```
+
+> ⚠️ Replace `<YourTenantID>` with your actual tenant ID.  
+> Do **not** share this publicly.
+
+---
+
+### **2. Validate the Bicep Template (Optional but Recommended)**
+
+Validate syntax, module versions, and ensure AVM dependencies resolve:
+
+```bash
+az bicep build --file platform/management/mg-rai.bicep
+```
+
+If the AVM version is invalid, you will see:
+
+```
+Error BCP192: The artifact does not exist in the registry.
+```
+
+---
+
+### **3. Deploy the Management Group Hierarchy**
+
+```bash
+az deployment mg create   --management-group-id <TenantRootGroupId>   --template-file platform/management/mg-rai.bicep   --name rai-mg-bootstrap   --location australiaeast
+```
+
+> 💡 **Tip:** Management groups deploy asynchronously.  
+> Azure Portal may take **30–90 seconds** to display the full hierarchy.
+
+---
+
+### **4. Verify Deployment**
+
+```bash
+az deployment mg show --name rai-mg-bootstrap
+```
+
+Then check Azure Portal → **Management Groups**.
+
+Expected structure:
+
+```
+/rai
+  /platform
+  /landing-zones
+  /sandbox
+```
+
+---
+
+### **5. (Optional) Redeploy or Clean Up**
+
+Redeploy (safe & idempotent):
+
+```bash
+az deployment mg create   --management-group-id <TenantRootGroupId>   --template-file platform/management/mg-rai.bicep   --name rai-mg-bootstrap
+```
+
+Delete deployment record (not the MGs):
+
+```bash
+az deployment mg delete --name rai-mg-bootstrap
+```
+
+---
+
 ##  Upcoming Additions
 
 - Identity & RBAC patterns  
@@ -54,6 +143,6 @@ As the series continues, each section will be populated with Bicep, policies, an
 - Application landing zones  
 - DevSecOps and APIM/AKS/Foundry foundations  
 
----
+
 
 
