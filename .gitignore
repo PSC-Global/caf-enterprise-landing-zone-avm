@@ -1,0 +1,4 @@
+*.pages
+*.json
+*.pdf
+.DS_Store
