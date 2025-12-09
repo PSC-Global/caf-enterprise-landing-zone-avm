@@ -1,0 +1,14 @@
+capability: security
+
+accessLevels:
+  viewer:
+    - Security Reader
+  operator: []
+  contributor:
+    - Defender for Cloud Contributor
+    - Microsoft Sentinel Contributor
+  admin:
+    - Contributor
+    - Security Admin
+
+assignments: []

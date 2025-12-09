@@ -1,0 +1,16 @@
+capability: monitoring
+
+accessLevels:
+  viewer:
+    - Log Analytics Reader
+    - Monitoring Reader
+  operator:
+    - Log Analytics Contributor
+  contributor:
+    - Application Insights Component Contributor
+    - Automation Contributor
+    - Monitoring Contributor
+  admin:
+    - Contributor
+
+assignments: []

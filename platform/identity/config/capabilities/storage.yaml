@@ -1,0 +1,16 @@
+capability: storage
+
+accessLevels:
+  viewer:
+    - Reader
+    - Storage Blob Data Reader
+  operator: []
+  contributor:
+    - Storage Account Contributor
+    - Storage Blob Data Contributor
+    - Storage File Data SMB Share Contributor
+    - Storage Queue Data Contributor
+  admin:
+    - Contributor
+
+assignments: []

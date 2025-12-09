@@ -1,0 +1,17 @@
+capability: integration
+
+accessLevels:
+  viewer:
+    - Reader
+  operator:
+    - Logic App Operator
+  contributor:
+    - API Management Service Contributor
+    - EventGrid Contributor
+    - Integration Service Environment Contributor
+    - Logic App Contributor
+    - Service Bus Data Owner
+  admin:
+    - Contributor
+
+assignments: []

@@ -1,0 +1,14 @@
+capability: governance
+
+accessLevels:
+  viewer:
+    - Reader
+  operator: []
+  contributor:
+    - Cost Management Contributor
+    - Resource Policy Contributor
+  admin:
+    - Contributor
+    - User Access Administrator
+
+assignments: []

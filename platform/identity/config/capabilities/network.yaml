@@ -1,0 +1,15 @@
+capability: network
+
+accessLevels:
+  viewer:
+    - Reader
+  operator: []
+  contributor:
+    - DNS Zone Contributor
+    - Network Contributor
+    - Private DNS Zone Contributor
+    - Traffic Manager Contributor
+  admin:
+    - Contributor
+
+assignments: []

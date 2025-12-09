@@ -1,0 +1,16 @@
+capability: ai
+
+accessLevels:
+  viewer:
+    - Reader
+  operator:
+    - AzureML Compute Operator
+    - Cognitive Services User
+  contributor:
+    - AzureML Data Scientist
+    - AzureML Registry User
+    - Cognitive Services Contributor
+  admin:
+    - Contributor
+
+assignments: []

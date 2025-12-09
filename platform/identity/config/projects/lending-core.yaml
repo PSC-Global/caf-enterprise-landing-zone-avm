@@ -1,0 +1,44 @@
+project: lending-core
+
+environments:
+  dev:
+    scope: resourceGroup
+    subscriptionId: <subscription-id>
+    resourceGroup: lending-core-dev-rg
+    capabilities:
+      compute:
+        - contributor
+      security:
+        - viewer
+      ai:
+        - viewer
+      data:
+        - viewer
+
+  sit:
+    scope: resourceGroup
+    subscriptionId: <subscription-id>
+    resourceGroup: lending-core-sit-rg
+    capabilities:
+      compute:
+        - contributor
+      security:
+        - viewer
+      ai:
+        - viewer
+      data:
+        - viewer
+
+  prd:
+    scope: resourceGroup
+    subscriptionId: <subscription-id>
+    resourceGroup: lending-core-prd-rg
+    capabilities:
+      compute:
+        - contributor
+      security:
+        - viewer
+      ai:
+        - viewer
+      data:
+        - viewer

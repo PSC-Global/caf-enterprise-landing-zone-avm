@@ -1,0 +1,21 @@
+capability: compute
+
+accessLevels:
+  viewer:
+    - Monitoring Reader
+    - Reader
+  operator:
+    - Managed Identity Operator
+    - Virtual Machine User Login
+  contributor:
+    - Azure Kubernetes Service Contributor
+    - Disk Snapshot Contributor
+    - Virtual Machine Contributor
+    - Web Plan Contributor
+    - Website Contributor
+  admin:
+    - Contributor
+    - User Access Administrator
+    - Virtual Machine Administrator Login
+
+assignments: []

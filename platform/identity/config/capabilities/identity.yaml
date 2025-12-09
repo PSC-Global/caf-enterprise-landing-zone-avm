@@ -1,0 +1,14 @@
+capability: identity
+
+accessLevels:
+  viewer:
+    - Reader
+  operator:
+    - Managed Identity Operator
+  contributor:
+    - Managed Identity Contributor
+  admin:
+    - Contributor
+    - User Access Administrator
+
+assignments: []

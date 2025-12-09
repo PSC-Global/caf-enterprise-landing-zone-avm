@@ -1,4 +1,4 @@
-# 📘 CAF Enterprise Landing Zone (AVM + Bicep)
+# CAF Enterprise Landing Zone (AVM + Bicep)
 
 This repository contains the **enterprise landing zone foundation** built using:
 
@@ -12,9 +12,9 @@ This repo will evolve progressively as the blog series continues.
 
 ---
 
-##  Current Scope (Part 1)
+## Current Scope
 
-**☑ Management Group hierarchy using AVM**
+**Management Group hierarchy using AVM**
 
 - `/platform`
 - `/landing-zones`
@@ -23,6 +23,17 @@ This repo will evolve progressively as the blog series continues.
 - Landing zone sub-MGs: corp, online
 
 This provides the **governance and inheritance foundation** for all future components.
+
+**Identity & Access Baseline (Part 2)**
+
+- Capability-based access control model
+- Infrastructure-as-Code RBAC management
+- Automated role assignment pipeline
+- Group-centric access model with 11 predefined capabilities
+
+The Identity module implements a scalable, capability-based access control system that manages Azure RBAC assignments through declarative YAML configurations and automated deployment pipelines.
+
+**Important**: Before using the Identity module, you must replace the `<subscription-id>` placeholders in the project YAML files (`platform/identity/config/projects/*.yaml`) with your actual Azure subscription IDs. These placeholders are used in the example project configurations and must be updated with real subscription IDs from your Azure tenant.
 
 ---
 
@@ -66,8 +77,7 @@ Login:
 az login --tenant <YourTenantID>
 ```
 
-> ⚠️ Replace `<YourTenantID>` with your actual tenant ID.  
-> Do **not** share this publicly.
+Replace `<YourTenantID>` with your actual tenant ID. Do not share this publicly.
 
 ---
 
@@ -93,8 +103,7 @@ Error BCP192: The artifact does not exist in the registry.
 az deployment mg create   --management-group-id <TenantRootGroupId>   --template-file platform/management/mg-rai.bicep   --name rai-mg-bootstrap   --location australiaeast
 ```
 
-> 💡 **Tip:** Management groups deploy asynchronously.  
-> Azure Portal may take **30–90 seconds** to display the full hierarchy.
+Note: Management groups deploy asynchronously. Azure Portal may take 30–90 seconds to display the full hierarchy.
 
 ---
 
@@ -133,9 +142,21 @@ az deployment mg delete --name rai-mg-bootstrap
 
 ---
 
-##  Upcoming Additions
+## Identity Module Documentation
 
-- Identity & RBAC patterns  
+The Identity & Access Baseline includes comprehensive documentation:
+
+- **[Quick Start Guide](platform/identity/docs/QUICK-START.md)** - Quick reference commands and common workflows for managing the identity system
+- **[Identity System Review](platform/identity/docs/IDENTITY-SYSTEM-REVIEW.md)** - Comprehensive architecture overview, design decisions, and implementation details
+- **[Capability Catalogue](platform/identity/docs/CAPABILITY-CATALOGUE.md)** - Detailed reference for all 11 capabilities, their access levels, and Azure RBAC role mappings
+
+**Configuration Note**: The example project files (`fraud-engine.yaml` and `lending-core.yaml`) contain `<subscription-id>` placeholders. Replace these with your actual Azure subscription IDs before running the pipeline. You can find your subscription IDs using:
+```bash
+az account list --output table
+```
+
+## Upcoming Additions
+
 - Logging & diagnostics baseline  
 - Network topology (hub/spoke or vWAN)  
 - Policy initiatives  

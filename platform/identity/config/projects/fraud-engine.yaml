@@ -1,0 +1,44 @@
+project: fraud-engine
+
+environments:
+  dev:
+    scope: resourceGroup
+    subscriptionId: <subscription-id>
+    resourceGroup: fraud-engine-dev-rg
+    capabilities:
+      compute:
+        - contributor
+      security:
+        - viewer
+      ai:
+        - contributor
+      data:
+        - viewer
+
+  sit:
+    scope: resourceGroup
+    subscriptionId: <subscription-id>
+    resourceGroup: fraud-engine-sit-rg
+    capabilities:
+      compute:
+        - contributor
+      security:
+        - viewer
+      ai:
+        - contributor
+      data:
+        - viewer
+
+  prd:
+    scope: resourceGroup
+    subscriptionId: <subscription-id>
+    resourceGroup: fraud-engine-prd-rg
+    capabilities:
+      compute:
+        - contributor
+      security:
+        - viewer
+      ai:
+        - contributor
+      data:
+        - viewer

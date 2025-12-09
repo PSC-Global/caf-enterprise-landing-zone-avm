@@ -1,0 +1,16 @@
+capability: iot
+
+accessLevels:
+  viewer:
+    - IoT Hub Reader
+    - Reader
+  operator: []
+  contributor:
+    - Device Provisioning Service Contributor
+    - Digital Twins Contributor
+    - IoT Hub Contributor
+    - IoT Hub Data Contributor
+  admin:
+    - Contributor
+
+assignments: []

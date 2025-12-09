@@ -1,0 +1,17 @@
+capability: data
+
+accessLevels:
+  viewer:
+    - Reader
+    - Storage Blob Data Reader
+  operator: []
+  contributor:
+    - Cosmos DB Account Contributor
+    - Data Factory Contributor
+    - SQL DB Contributor
+    - SQL Server Contributor
+    - Synapse Contributor
+  admin:
+    - Contributor
+
+assignments: []
