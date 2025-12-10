@@ -1,134 +1,136 @@
 # Identity Pipeline - Quick Start Guide
 
-This guide provides quick reference commands and workflows for managing the Identity & Access Baseline system. For detailed architecture and design decisions, see the [Identity System Review](IDENTITY-SYSTEM-REVIEW.md).
+## 🚀 Running the Pipeline
 
-## Running the Pipeline
-
-### Full Pipeline
-
-The recommended approach is to run the complete pipeline, which validates configuration, generates role assignments, syncs AAD groups, and prepares deployment parameters.
+### Full Pipeline (Recommended)
 
 ```powershell
 cd platform/identity/scripts
 .\invoke-capability-access-pipeline.ps1
 ```
 
-To process specific projects only:
-
+**For specific projects:**
 ```powershell
 .\invoke-capability-access-pipeline.ps1 -Projects "fraud-engine"
 .\invoke-capability-access-pipeline.ps1 -Projects "fraud-engine,lending-core"
 ```
 
-### Pipeline Steps
+### What the Pipeline Does
 
-The pipeline executes the following steps in sequence:
+1. ✅ **Validates** role mapping file (checks for duplicates)
+2. ✅ **Generates** role assignments from capability + project configs
+3. ✅ **Syncs** AAD groups (creates/finds groups in Azure AD based on project YAML)
+4. ✅ **Generates** Bicep parameter files for deployment
 
-1. Validates role mapping file (checks for duplicate role definitions)
-2. Generates role assignments from capability and project configurations
-3. Syncs AAD groups (creates or finds groups in Azure AD and updates mappings)
-4. Generates Bicep parameter files for deployment
+### Deploy RBAC Assignments
 
-## Common Workflows
-
-### Adding a New Role to a Capability
-
-When you need to add a new Azure RBAC role to an existing capability:
-
-1. Edit the capability YAML file (e.g., `config/capabilities/compute.yaml`):
-   ```yaml
-   capability: compute
-   accessLevels:
-     contributor:
-       - Virtual Machine Contributor
-       - New Role Name
-   ```
-
-2. Fetch the role definition GUID from Azure:
-   ```bash
-   az role definition list --name "New Role Name" --query "[0].name" -o tsv
-   ```
-
-3. Add the role to `bicep/role-definition-ids.json`:
-   ```json
-   {
-     "New Role Name": "guid-from-step-2"
-   }
-   ```
-
-4. Run the pipeline to regenerate assignments:
-   ```powershell
-   .\invoke-capability-access-pipeline.ps1
-   ```
-
-### Adding a New Project
-
-To onboard a new project into the identity system:
-
-1. Create a new project YAML file at `config/projects/new-project.yaml`:
-   ```yaml
-   project: new-project
-   
-   environments:
-     dev:
-       scope: resourceGroup
-       subscriptionId: <subscription-guid>
-       resourceGroup: new-project-dev-rg
-       capabilities:
-         compute:
-           - contributor
-         security:
-           - viewer
-         data:
-           - viewer
-     prd:
-       scope: resourceGroup
-       subscriptionId: <subscription-guid>
-       resourceGroup: new-project-prd-rg
-       capabilities:
-         compute:
-           - contributor
-         security:
-           - viewer
-   ```
-
-2. Run the pipeline. It will automatically detect and process the new project:
-   ```powershell
-   .\invoke-capability-access-pipeline.ps1
-   ```
-
-3. Deploy the role assignments using the deployment script:
-   ```powershell
-   .\deploy-role-assignments.ps1
-   ```
-
-### Deploying Role Assignments
-
-After running the pipeline, deploy the generated role assignments to Azure. The deployment script handles both subscription-scoped and resource group-scoped assignments automatically.
+After running the pipeline, deploy the RBAC assignments:
 
 ```powershell
 cd platform/identity/scripts
 .\deploy-role-assignments.ps1
 ```
 
-The script will:
-- Group assignments by scope type (subscription vs resource group)
-- Deploy subscription-scoped assignments to each subscription
-- Deploy resource group-scoped assignments to each resource group
-- Verify resource groups exist before deploying
+---
 
-Alternatively, you can deploy manually using Azure CLI:
+## 📝 Typical Workflow
+
+### 1. Add a New Role to a Capability
+
+```yaml
+# Edit: config/capabilities/compute.yaml
+capability: compute
+accessLevels:
+  contributor:
+    - Virtual Machine Contributor
+    - New Role Name  # ← Add here
+```
+
+Then:
+1. Fetch the role GUID:
+   ```bash
+   az role definition list --name "New Role Name" --query "[0].name" -o tsv
+   ```
+2. Add to `bicep/role-definition-ids.json`:
+   ```json
+   {
+     "New Role Name": "guid-from-step-1"
+   }
+   ```
+3. Run pipeline to regenerate assignments
+
+### 2. Add a New Project
+
+1. Create `config/projects/new-project.yaml`:
+   ```yaml
+   project: new-project
+   environments:
+     dev:
+       scope: resourceGroup
+       subscriptionId: <guid>
+       resourceGroup: new-project-dev-rg
+       capabilities:
+         compute:
+           - contributor
+         data:
+           - viewer
+     prd:
+       scope: resourceGroup
+       subscriptionId: <guid>
+       resourceGroup: new-project-prd-rg
+       capabilities:
+         compute:
+           - contributor
+         data:
+           - viewer
+   ```
+2. Run pipeline (it will pick up new project automatically)
+   - Groups will be created with naming: `rai-<project>-<env>-<capability>-<level>`
+   - Example: `rai-new-project-dev-compute-contributor`
+   - **Note:** User membership is managed by IAM (identity) team separately
+
+### 2a. Group Naming Convention
+
+Groups are automatically created based on project YAML configuration with the following naming convention:
+
+**Format:** `rai-<project>-<env>-<capability>-<level>`
+
+**Examples:**
+- `rai-lending-core-dev-compute-contributor`
+- `rai-lending-core-dev-security-viewer`
+- `rai-fraud-engine-prd-ai-contributor`
+
+**Note:** User membership in these groups is managed by the IAM (identity) team separately. The DevOps pipeline only creates the groups and generates RBAC role assignments.
+
+### 3. Deploy RBAC
+
+**Recommended: Use the deployment script**
+
+```powershell
+cd platform/identity/scripts
+.\deploy-role-assignments.ps1
+```
+
+This script automatically:
+- Groups assignments by scope (subscription vs resource group)
+- Sets the correct subscription for each deployment
+- Validates resource groups exist before deploying
+- Deploys to all required subscriptions and resource groups
+
+**Alternative: Manual deployment (for specific subscriptions)**
 
 ```bash
-# For subscription-scoped assignments
+# Set subscription
 az account set --subscription <subscription-id>
+
+# Deploy subscription-scoped assignments
 az deployment sub create \
   --location australiaeast \
   --template-file platform/identity/bicep/role-assignments-subscription.bicep \
   --parameters assignments=@platform/identity/bicep/generated-role-assignments.json \
   --parameters aadGroupIds=@platform/identity/bicep/aad-group-ids.json
 
-# For resource group-scoped assignments
+# Deploy resource group-scoped assignments
 az deployment group create \
   --resource-group <resource-group-name> \
   --template-file platform/identity/bicep/role-assignments-resourcegroup.bicep \
@@ -138,74 +140,55 @@ az deployment group create \
   --parameters resourceGroupName=<resource-group-name>
 ```
 
-## Troubleshooting
+---
+
+## 🔍 Troubleshooting
 
 ### Pipeline fails with "duplicate roles"
-
-The validation step checks for duplicate role definitions. If you see this error:
-
-1. Run validation separately to see details:
-   ```powershell
-   .\validate-role-mapping.ps1
-   ```
-
-2. Check `bicep/role-definition-ids.json` for duplicate entries
-3. Remove duplicates and ensure each role name maps to a unique GUID
+→ Run validation: `.\validate-role-mapping.ps1`
+→ Check `role-definition-ids.json` for duplicate entries
 
 ### Deployment fails with "RoleDefinitionDoesNotExist"
-
-This indicates the role GUID is incorrect or the role doesn't exist in the subscription:
-
-1. Verify the role exists and get its GUID:
-   ```bash
-   az role definition list --name "<Role Name>" --query "[0].name"
-   ```
-
-2. Update `bicep/role-definition-ids.json` with the correct GUID
-3. Re-run the pipeline and deployment
+→ Role GUID is wrong or role doesn't exist in subscription
+→ Verify GUID: `az role definition list --name "<Role Name>" --query "[0].name"`
+→ Update `role-definition-ids.json`
 
 ### Deployment fails with "property 'X' doesn't exist"
+→ Role name in generated JSON doesn't match mapping file
+→ Check capability YAML files for typos
+→ Re-run pipeline after fixing
 
-This usually means a role name in the generated JSON doesn't match the mapping file:
+### Group naming issues
+→ Groups follow the pattern: `rai-<project>-<env>-<capability>-<level>`
+→ Verify project YAML has correct project name, environment names, and capabilities
+→ Check that capability names match those defined in `config/capabilities/*.yaml`
 
-1. Check capability YAML files for typos in role names
-2. Ensure all role names in capabilities exist in `role-definition-ids.json`
-3. Re-run the pipeline after fixing
+### User membership
+→ User membership is managed by IAM (identity) team separately
+→ DevOps pipeline only creates groups and generates RBAC assignments
+→ If users are defined in YAML, they will be synced, but this is optional
 
-### Resource group does not exist
+### Deployment fails with "PrincipalNotFound"
+→ Groups don't exist in Entra ID or ObjectIds are stale
+→ Re-run the pipeline: `.\invoke-capability-access-pipeline.ps1` to create/update groups
+→ Wait 10-30 seconds after group creation for Entra ID replication
+→ Verify groups exist: `az ad group list --filter "startswith(displayName,'rai-')"`
+→ Check that you're deploying to the correct tenant (ObjectIds are tenant-scoped)
 
-The deployment script checks for resource group existence before deploying. If a resource group is missing:
+---
 
-1. Create the resource group first, or
-2. Remove the environment from the project YAML file if it's not needed yet
+## 📂 File Locations
 
-## File Locations Reference
-
-| Task | File Location |
-|------|---------------|
-| Add or edit capabilities | `config/capabilities/*.yaml` |
-| Add or edit projects | `config/projects/*.yaml` |
-| Add or edit role GUIDs | `bicep/role-definition-ids.json` |
+| What You Need | File Location |
+|--------------|---------------|
+| Add/edit capabilities | `config/capabilities/*.yaml` |
+| Add/edit projects | `config/projects/*.yaml` |
+| Add/edit role GUIDs | `bicep/role-definition-ids.json` |
 | Run pipeline | `scripts/invoke-capability-access-pipeline.ps1` |
-| Deploy assignments | `scripts/deploy-role-assignments.ps1` |
-| Subscription template | `bicep/role-assignments-subscription.bicep` |
-| Resource group template | `bicep/role-assignments-resourcegroup.bicep` |
+| Deploy RBAC | `scripts/deploy-role-assignments.ps1` |
+| Deploy templates | `bicep/role-assignments-subscription.bicep`, `bicep/role-assignments-resourcegroup.bicep` |
 | Generated assignments | `bicep/generated-role-assignments.json` |
 | Generated parameters | `bicep/aad-group-ids.json` |
-| AAD group mapping | `config/aad-group-mapping.json` |
+| Group IDs mapping | `config/aad-group-mapping.json` |
+| Group IDs (generated) | `generated/group-ids.json` |
 
-## Prerequisites
-
-Before running the pipeline, ensure you have:
-
-- PowerShell 7 or later installed
-- Azure CLI installed and authenticated (`az login`)
-- Required PowerShell modules:
-  ```powershell
-  Install-Module -Name powershell-yaml -Scope CurrentUser
-  ```
-
-You also need appropriate Azure permissions:
-- User Access Administrator (or Owner) on subscriptions where you're deploying role assignments
-- Directory Readers permission in Azure AD to read group information
-- Global Administrator or Privileged Role Administrator to create AAD groups (if groups don't exist)

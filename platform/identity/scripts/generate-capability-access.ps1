@@ -121,9 +121,8 @@ Get-ChildItem $projectPath -Filter *.yaml | ForEach-Object {
                 $roleList = $allCapabilities[$capability][$level]
 
                 foreach ($role in $roleList) {
-                    # AAD group naming convention (global: capability + access level only)
-                    # Access isolation is controlled by RBAC scope, not group name
-                    $aadGroupName = "rai-$capability-$level"
+                    # AAD group naming convention: rai-<project>-<env>-<capability>-<level>
+                    $aadGroupName = "rai-$($proj.project)-$envName-$capability-$level"
 
                     # Create assignments for each subscription (handles multipleSubscriptions)
                     foreach ($subscriptionId in $subscriptionIds) {
