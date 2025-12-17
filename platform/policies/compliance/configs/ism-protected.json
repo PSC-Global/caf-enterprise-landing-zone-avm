@@ -1,0 +1,19 @@
+{
+  "framework": "Australian Government ISM PROTECTED",
+  "policySetDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/27272c0b-c225-4cc3-b8b0-f2534b093077",
+  "displayName": "Australian Government ISM PROTECTED",
+  "description": "This initiative includes policies that address a subset of Australian Government Information Security Manual (ISM) controls for PROTECTED classification.",
+  "recommendedScopes": [
+    "managementGroup",
+    "subscription"
+  ],
+  "enforcementMode": "DoNotEnforce",
+  "useCases": [
+    "Australian government agencies",
+    "Government contractors",
+    "Organizations handling Australian government data",
+    "Enterprises requiring ISM compliance"
+  ],
+  "policyCount": "~800+ policies",
+  "documentation": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/australia-ism"
+}

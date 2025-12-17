@@ -1,0 +1,18 @@
+{
+  "framework": "PCI DSS 4.0",
+  "policySetDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/c676748e-3af9-4e22-bc28-50feed564afb",
+  "displayName": "PCI DSS 4.0 Compliance",
+  "description": "This initiative includes policies that address a subset of Payment Card Industry Data Security Standard (PCI DSS) 4.0 requirements.",
+  "recommendedScopes": [
+    "subscription"
+  ],
+  "enforcementMode": "DoNotEnforce",
+  "useCases": [
+    "E-commerce platforms",
+    "Payment processors",
+    "Organizations handling credit card data",
+    "Financial services with card transactions"
+  ],
+  "policyCount": "~70 policies",
+  "documentation": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/pci-dss-4-0"
+}

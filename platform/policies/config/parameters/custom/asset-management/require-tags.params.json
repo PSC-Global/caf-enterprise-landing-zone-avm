@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "policyDefinitionId": {
+      "value": "/providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99"
+    },
+    "assignmentName": {
+      "value": "require-tags-corp-audit"
+    },
+    "displayName": {
+      "value": "Require mandatory tags on resources (Corp - Audit)"
+    },
+    "assignmentDescription": {
+      "value": "Audits resources in corp landing zones that are missing required tags."
+    },
+    "enforcementMode": {
+      "value": "DoNotEnforce"
+    },
+    "location": {
+      "value": "australiaeast"
+    },
+    "enableManagedIdentity": {
+      "value": false
+    },
+    "policyParameters": {
+      "value": {
+        "tagName": {
+          "value": "Environment"
+        }
+      }
+    },
+    "nonComplianceMessages": {
+      "value": [
+        {
+          "message": "Resource is missing required 'Environment' tag for asset management tracking."
+        }
+      ]
+    }
+  }
+}

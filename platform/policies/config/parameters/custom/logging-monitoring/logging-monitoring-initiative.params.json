@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "policyDefinitionId": {
+      "value": "/providers/Microsoft.Management/managementGroups/rai/providers/Microsoft.Authorization/policySetDefinitions/rai-logging-monitoring"
+    },
+    "assignmentName": {
+      "value": "logging-monitoring-initiative-corp-audit"
+    },
+    "displayName": {
+      "value": "Logging & Monitoring Initiative - Corp (Audit)"
+    },
+    "assignmentDescription": {
+      "value": "Audits diagnostic settings and monitoring compliance in corp landing zones."
+    },
+    "enforcementMode": {
+      "value": "DoNotEnforce"
+    },
+    "location": {
+      "value": "australiaeast"
+    },
+    "enableManagedIdentity": {
+      "value": false
+    },
+    "policyParameters": {
+      "value": {}
+    },
+    "nonComplianceMessages": {
+      "value": [
+        {
+          "message": "Diagnostic settings or monitoring configuration is non-compliant."
+        }
+      ]
+    }
+  }
+}

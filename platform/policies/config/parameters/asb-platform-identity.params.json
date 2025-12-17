@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "policyDefinitionId": {
+      "value": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8"
+    },
+    "assignmentName": {
+      "value": "asb-platform-identity-audit"
+    },
+    "displayName": {
+      "value": "Azure Security Benchmark - Platform Identity (Audit Mode)"
+    },
+    "assignmentDescription": {
+      "value": "Azure Security Benchmark v3 assigned to Platform Identity management group in audit-only mode. Focuses on identity and access management controls for platform identity resources including Entra ID, Key Vault, and privileged access workloads."
+    },
+    "enforcementMode": {
+      "value": "DoNotEnforce"
+    },
+    "location": {
+      "value": "australiaeast"
+    },
+    "enableManagedIdentity": {
+      "value": false
+    },
+    "policyParameters": {
+      "value": {}
+    },
+    "nonComplianceMessages": {
+      "value": [
+        {
+          "message": "Platform identity resource is not compliant with Azure Security Benchmark v3. Review identity and access management controls and implement required security configurations."
+        }
+      ]
+    }
+  }
+}

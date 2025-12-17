@@ -1,148 +1,57 @@
-# 📘 CAF Enterprise Landing Zone (AVM + Bicep)
 
-This repository contains the **enterprise landing zone foundation** built using:
+# CAF Enterprise Landing Zone (AVM + Bicep)
 
-- **Microsoft Cloud Adoption Framework (CAF)**
-- **Azure Verified Modules (AVM)**
-- **Bicep** (infrastructure-as-code)
-
-The goal is to build a **scalable, secure, governance-first Azure platform** following Microsoft’s Enterprise-Scale design principles.
-
-This repo will evolve progressively as the blog series continues.
+This repository contains the enterprise landing zone foundation using the Microsoft Cloud Adoption Framework (CAF), Azure Verified Modules (AVM), and Bicep. It provides a governance-first, scalable Azure platform scaffold suitable for enterprise adoption.
 
 ---
 
-##  Current Scope (Part 1)
+## Current Scope
 
-**☑ Management Group hierarchy using AVM**
+- Management group hierarchy and baseline platform modules
+- Foundational Bicep templates for management, identity, connectivity, logging, and policies
 
-- `/platform`
-- `/landing-zones`
-- `/sandbox`
-- Platform sub-MGs: management, identity, connectivity
-- Landing zone sub-MGs: corp, online
-
-This provides the **governance and inheritance foundation** for all future components.
+This repo is organised to support progressive blog posts and practical deployments; see the `platform` and `landing-zones` folders for source templates.
 
 ---
 
-##  Repository Structure
+## Repository Structure
 
 ```
-/platform
-  /management
-  /identity
-  /connectivity
-  /logging
-  /policies
-/workloads
-/scripts
-/docs
-```
+platform/
+  management/
+  identity/
+  connectivity/
+  logging/
+  policies/
+landing-zones/
 
-As the series continues, each section will be populated with Bicep, policies, and platform components.
 
----
-
-##  How to Use This Repository
-
-This repository provides the Bicep templates and structure required to deploy the foundational **CAF-aligned management group hierarchy** using Azure Verified Modules (AVM).
-
-Follow the steps below to deploy the hierarchy into your Azure tenant.
-
----
-
-### **1. Login to the Correct Tenant**
-
-Clear any previous sessions:
-
-```bash
-az account clear
-```
-
-Login:
-
-```bash
-az login --tenant <YourTenantID>
-```
-
-> ⚠️ Replace `<YourTenantID>` with your actual tenant ID.  
-> Do **not** share this publicly.
-
----
-
-### **2. Validate the Bicep Template (Optional but Recommended)**
-
-Validate syntax, module versions, and ensure AVM dependencies resolve:
-
-```bash
-az bicep build --file platform/management/mg-rai.bicep
-```
-
-If the AVM version is invalid, you will see:
-
-```
-Error BCP192: The artifact does not exist in the registry.
 ```
 
 ---
 
-### **3. Deploy the Management Group Hierarchy**
+## Documentation & How to Use This Repository (task-focused)
 
-```bash
-az deployment mg create   --management-group-id <TenantRootGroupId>   --template-file platform/management/mg-rai.bicep   --name rai-mg-bootstrap   --location australiaeast
-```
+  ---
 
-> 💡 **Tip:** Management groups deploy asynchronously.  
-> Azure Portal may take **30–90 seconds** to display the full hierarchy.
+  ## 1 — Management groups
 
----
+  What it is: the authoritative management group hierarchy used by this landing zone (RAI → platform → landing-zones → sandbox).
 
-### **4. Verify Deployment**
+  Where to create & deploy: `platform/management/mg-rai.bicep` (see `platform/management/*` for templates and guidance).
 
-```bash
-az deployment mg show --name rai-mg-bootstrap
-```
+  ## 2 — Azure AD groups & identities
 
-Then check Azure Portal → **Management Groups**.
+  What it is: capability-driven AAD group creation and RBAC assignment pipeline that converts capability/project YAML into AAD groups and role assignments.
 
-Expected structure:
+  Where to implement: `platform/identity/docs/IDENTITY-SYSTEM-REVIEW.md` and `platform/identity/docs/QUICK-START.md` (see `platform/identity/scripts/` and `platform/identity/bicep/` for pipeline and templates).
 
-```
-/rai
-  /platform
-  /landing-zones
-  /sandbox
-```
+  ## 3 — Policies
 
----
+  What it is: initiative definitions, archetypes and assignment patterns implementing Azure Security Benchmark (ASB) across the hierarchy.
 
-### **5. (Optional) Redeploy or Clean Up**
+  Where to author & deploy: `platform/policies/docs/README.md`, `platform/policies/docs/DEPLOYMENT-GUIDE.md`, and `platform/policies/docs/POLICY-REFERENCE-GUIDE.md` (see `platform/policies/bicep/` and `platform/policies/scripts/` for templates and automation).
 
-Redeploy (safe & idempotent):
-
-```bash
-az deployment mg create   --management-group-id <TenantRootGroupId>   --template-file platform/management/mg-rai.bicep   --name rai-mg-bootstrap
-```
-
-Delete deployment record (not the MGs):
-
-```bash
-az deployment mg delete --name rai-mg-bootstrap
-```
-
----
-
-##  Upcoming Additions
-
-- Identity & RBAC patterns  
-- Logging & diagnostics baseline  
-- Network topology (hub/spoke or vWAN)  
-- Policy initiatives  
-- Subscription vending  
-- Application landing zones  
-- DevSecOps and APIM/AKS/Foundry foundations  
-
-
+ 
 
 

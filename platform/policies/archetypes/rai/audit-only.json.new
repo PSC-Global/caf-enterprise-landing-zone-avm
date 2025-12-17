@@ -1,0 +1,23 @@
+{
+  "initiatives": {
+    "asset-management-baseline": { "effect": "Audit" },
+    "backup-baseline": { "effect": "AuditIfNotExists" },
+    "compute-baseline": { "effect": "Audit" },
+    "data-protection-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
+    "devops-baseline": { "effect": "Audit" },
+    "governance-baseline": { "effect": "Audit" },
+    "identity-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
+    "monitoring-baseline": {
+      "listOfResourceTypes": [
+        "Microsoft.Compute/virtualMachines",
+        "Microsoft.Storage/storageAccounts",
+        "Microsoft.KeyVault/vaults",
+        "Microsoft.Sql/servers/databases"
+      ]
+    },
+    "misc-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
+    "network-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
+    "defender-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
+    "storage-baseline": { "effect": "Audit" }
+  }
+}

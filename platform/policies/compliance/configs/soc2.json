@@ -1,0 +1,19 @@
+{
+  "framework": "SOC 2 Type 2",
+  "policySetDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/4054785f-702b-4a98-9215-009cbd58b141",
+  "displayName": "System and Organization Controls (SOC) 2 Compliance",
+  "description": "This initiative includes policies that address a subset of SOC 2 Type 2 trust service principles. Additional policies will be added in upcoming releases.",
+  "recommendedScopes": [
+    "subscription",
+    "managementGroup"
+  ],
+  "enforcementMode": "DoNotEnforce",
+  "useCases": [
+    "SaaS providers",
+    "Cloud service companies",
+    "Organizations handling customer data",
+    "Companies requiring third-party attestation"
+  ],
+  "policyCount": "~81 policies",
+  "documentation": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/soc-2"
+}

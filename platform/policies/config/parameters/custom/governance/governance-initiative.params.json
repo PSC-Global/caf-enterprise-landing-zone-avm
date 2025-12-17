@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "policyDefinitionId": {
+      "value": "/providers/Microsoft.Management/managementGroups/rai/providers/Microsoft.Authorization/policySetDefinitions/rai-governance"
+    },
+    "assignmentName": {
+      "value": "governance-initiative-corp-audit"
+    },
+    "displayName": {
+      "value": "Governance Initiative - Corp (Audit)"
+    },
+    "assignmentDescription": {
+      "value": "Audits resource locations (Australia regions) and allowed service types in corp landing zones."
+    },
+    "enforcementMode": {
+      "value": "DoNotEnforce"
+    },
+    "location": {
+      "value": "australiaeast"
+    },
+    "enableManagedIdentity": {
+      "value": false
+    },
+    "policyParameters": {
+      "value": {}
+    },
+    "nonComplianceMessages": {
+      "value": [
+        {
+          "message": "Resource violates governance posture (location/resource type not allowed)."
+        }
+      ]
+    }
+  }
+}

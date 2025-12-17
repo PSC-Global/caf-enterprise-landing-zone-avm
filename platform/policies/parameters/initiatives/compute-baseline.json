@@ -1,0 +1,6 @@
+{
+  "parameters": {
+    "effect": "Deny",
+    "allowedSkus": ["D2s_v5", "D4s_v5"]
+  }
+}

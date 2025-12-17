@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "policyDefinitionId": {
+      "value": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8"
+    },
+    "assignmentName": {
+      "value": "asb-corp-landing-zones-audit"
+    },
+    "displayName": {
+      "value": "Azure Security Benchmark - Corp Landing Zones (Audit Mode)"
+    },
+    "assignmentDescription": {
+      "value": "Azure Security Benchmark v3 assigned to Corp landing zones management group in audit-only mode. Applies comprehensive security controls to corporate workloads requiring on-premises connectivity, private networking, and enhanced security posture."
+    },
+    "enforcementMode": {
+      "value": "DoNotEnforce"
+    },
+    "location": {
+      "value": "australiaeast"
+    },
+    "enableManagedIdentity": {
+      "value": false
+    },
+    "policyParameters": {
+      "value": {}
+    },
+    "nonComplianceMessages": {
+      "value": [
+        {
+          "message": "Corp landing zone resource is not compliant with Azure Security Benchmark v3. Review security controls and implement remediation for corporate workload compliance."
+        }
+      ]
+    }
+  }
+}
