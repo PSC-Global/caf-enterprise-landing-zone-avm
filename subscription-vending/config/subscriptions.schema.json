@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Subscription Vending Configuration Schema",
+  "description": "Schema for subscription vending configuration in CAF enterprise landing zone",
+  "type": "object",
+  "properties": {
+    "subscriptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "aliasName",
+          "displayName",
+          "billingScope",
+          "targetMg",
+          "role",
+          "primaryRegion",
+          "ownerAadGroup",
+          "archetype",
+          "tags"
+        ],
+        "properties": {
+          "aliasName": {
+            "type": "string",
+            "description": "Subscription alias name for creation (must be unique across tenant)",
+            "pattern": "^[a-zA-Z0-9-]+$"
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Display name for the subscription (typically same as aliasName)"
+          },
+          "billingScope": {
+            "type": "string",
+            "description": "MCA billing scope resource ID for subscription creation"
+          },
+          "targetMg": {
+            "type": "string",
+            "description": "Target management group ID",
+            "enum": [
+              "platform-management",
+              "platform-identity",
+              "platform-connectivity",
+              "corp",
+              "online",
+              "sandbox"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "description": "Subscription role in topology",
+            "enum": ["hub", "spoke", "platform", "workload", "sandbox"]
+          },
+          "primaryRegion": {
+            "type": "string",
+            "description": "Primary Azure region for resource deployment"
+          },
+          "ownerAadGroup": {
+            "type": "string",
+            "description": "Azure AD group name for subscription owners"
+          },
+          "archetype": {
+            "type": "string",
+            "description": "Policy archetype key for governance (e.g., platform-management, online-workload)"
+          },
+          "tags": {
+            "type": "object",
+            "description": "Azure resource tags",
+            "required": ["costCenter"],
+            "properties": {
+              "costCenter": {
+                "type": "string",
+                "description": "Cost center for billing and chargeback"
+              }
+            },
+            "additionalProperties": true
+          },
+          "drSubscription": {
+            "type": "object",
+            "description": "Optional disaster recovery subscription configuration",
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "description": "Enable creation of separate DR subscription"
+              },
+              "aliasName": {
+                "type": "string",
+                "description": "DR subscription alias name (auto-generated as {primaryAliasName}-dr if not specified)",
+                "pattern": "^[a-zA-Z0-9-]+$"
+              },
+              "primaryRegion": {
+                "type": "string",
+                "description": "DR region for disaster recovery subscription (required when enabled)"
+              },
+              "drMode": {
+                "type": "string",
+                "description": "Disaster recovery mode",
+                "enum": ["active-active", "active-passive"]
+              },
+              "targetMg": {
+                "type": "string",
+                "description": "Target management group for DR subscription (defaults to same as primary)",
+                "enum": [
+                  "platform-management",
+                  "platform-identity",
+                  "platform-connectivity",
+                  "corp",
+                  "online",
+                  "sandbox"
+                ]
+              },
+              "archetype": {
+                "type": "string",
+                "description": "Policy archetype for DR subscription (defaults to same as primary)"
+              },
+              "ownerAadGroup": {
+                "type": "string",
+                "description": "AAD group for DR subscription owners (defaults to same as primary)"
+              },
+              "tags": {
+                "type": "object",
+                "description": "Additional tags for DR subscription",
+                "properties": {
+                  "costCenter": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": ["enabled", "primaryRegion", "drMode"],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    }
+                  }
+                },
+                "then": {
+                  "required": ["primaryRegion", "drMode"]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

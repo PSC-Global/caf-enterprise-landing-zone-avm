@@ -1,0 +1,31 @@
+{
+  "Name": "Subscription Vending Operator",
+  "Description": "Least-privilege role for subscription vending automation. Allows creating subscription aliases via MCA and tenant-scope deployments for subscription provisioning.",
+  "Actions": [
+    "Microsoft.Subscription/aliases/*",
+    "Microsoft.Subscription/cancel/action",
+    "Microsoft.Subscription/rename/action",
+    "Microsoft.Subscription/register/action",
+    "Microsoft.Resources/deployments/*",
+    "Microsoft.Resources/deployments/validate/action",
+    "Microsoft.Resources/deployments/operationStatuses/read",
+    "Microsoft.Management/managementGroups/write",
+    "Microsoft.Management/managementGroups/read",
+    "Microsoft.Management/managementGroups/subscriptions/write",
+    "Microsoft.Management/managementGroups/subscriptions/delete",
+    "Microsoft.Management/register/action",
+    "Microsoft.Resources/subscriptions/read",
+    "Microsoft.Resources/subscriptions/write",
+    "Microsoft.Authorization/roleAssignments/read",
+    "Microsoft.Authorization/roleAssignments/write",
+    "Microsoft.Authorization/roleAssignments/delete",
+    "Microsoft.Authorization/roleDefinitions/read"
+  ],
+  "NotActions": [],
+  "DataActions": [],
+  "NotDataActions": [],
+  "AssignableScopes": [
+    "/",
+    "/providers/Microsoft.Management/managementGroups/rai"
+  ]
+}

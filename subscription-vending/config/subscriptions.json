@@ -1,0 +1,111 @@
+{
+  "$schema": "./subscriptions.schema.json",
+  "subscriptions": [
+    {
+      "aliasName": "rai-platform-management-prod-01",
+      "displayName": "rai-platform-management-prod-01",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "targetMg": "platform-management",
+      "role": "platform",
+      "primaryRegion": "australiaeast",
+      "ownerAadGroup": "Platform-Owners",
+      "archetype": "platform-management",
+      "tags": {
+        "costCenter": "IT-PLATFORM"
+      }
+    },
+    {
+      "aliasName": "rai-platform-identity-prod-01",
+      "displayName": "rai-platform-identity-prod-01",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "targetMg": "platform-identity",
+      "role": "platform",
+      "primaryRegion": "australiaeast",
+      "ownerAadGroup": "Platform-Identity-Owners",
+      "archetype": "platform-identity",
+      "tags": {
+        "costCenter": "IT-PLATFORM"
+      },
+      "drSubscription": {
+        "enabled": false,
+        "primaryRegion": "australiasoutheast",
+        "drMode": "active-active"
+      }
+    },
+    {
+      "aliasName": "rai-platform-connectivity-prod-01",
+      "displayName": "rai-platform-connectivity-prod-01",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "targetMg": "platform-connectivity",
+      "role": "hub",
+      "primaryRegion": "australiaeast",
+      "ownerAadGroup": "Platform-Network-Owners",
+      "archetype": "platform-connectivity",
+      "tags": {
+        "costCenter": "IT-PLATFORM"
+      },
+      "drSubscription": {
+        "enabled": false,
+        "primaryRegion": "australiasoutheast",
+        "drMode": "active-active"
+      }
+    },
+    {
+      "aliasName": "rai-platform-logging-prod-01",
+      "displayName": "rai-platform-logging-prod-01",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "targetMg": "platform-management",
+      "role": "platform",
+      "primaryRegion": "australiaeast",
+      "ownerAadGroup": "Platform-Security-Owners",
+      "archetype": "platform-logging",
+      "tags": {
+        "costCenter": "IT-SECURITY"
+      },
+      "drSubscription": {
+        "enabled": false,
+        "primaryRegion": "australiasoutheast",
+        "drMode": "active-active"
+      }
+    },
+    {
+      "aliasName": "rai-fraud-engine-prod-01",
+      "displayName": "rai-fraud-engine-prod-01",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "targetMg": "online",
+      "role": "workload",
+      "primaryRegion": "australiaeast",
+      "ownerAadGroup": "Fraud-Owners",
+      "archetype": "online-workload",
+      "tags": {
+        "costCenter": "IT-FRAUD"
+      }
+    },
+    {
+      "aliasName": "rai-lending-core-prod-01",
+      "displayName": "rai-lending-core-prod-01",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "targetMg": "online",
+      "role": "workload",
+      "primaryRegion": "australiaeast",
+      "ownerAadGroup": "Lending-Owners",
+      "archetype": "online-workload",
+      "tags": {
+        "costCenter": "IT-LENDING"
+      }
+    },
+    {
+      "aliasName": "rai-sandbox-dev-01",
+      "displayName": "rai-sandbox-dev-01",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "targetMg": "sandbox",
+      "role": "sandbox",
+      "primaryRegion": "australiaeast",
+      "ownerAadGroup": "Sandbox-Owners",
+      "archetype": "sandbox",
+      "tags": {
+        "costCenter": "IT-SANDBOX"
+      }
+    }
+  ]
+}

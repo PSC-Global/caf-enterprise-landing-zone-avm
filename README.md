@@ -9,8 +9,9 @@ This repository contains the enterprise landing zone foundation using the Micros
 
 - Management group hierarchy and baseline platform modules
 - Foundational Bicep templates for management, identity, connectivity, logging, and policies
+- Subscription vending machine for automated subscription provisioning and bootstrap
 
-This repo is organised to support progressive blog posts and practical deployments; see the `platform` and `landing-zones` folders for source templates.
+This repo is organised to support progressive blog posts and practical deployments; see the `platform`, `subscription-vending`, and `landing-zones` folders for source templates.
 
 ---
 
@@ -23,6 +24,7 @@ platform/
   connectivity/
   logging/
   policies/
+subscription-vending/
 landing-zones/
 
 
@@ -51,6 +53,12 @@ landing-zones/
   What it is: initiative definitions, archetypes and assignment patterns implementing Azure Security Benchmark (ASB) across the hierarchy.
 
   Where to author & deploy: `platform/policies/docs/README.md`, `platform/policies/docs/DEPLOYMENT-GUIDE.md`, and `platform/policies/docs/POLICY-REFERENCE-GUIDE.md` (see `platform/policies/bicep/` and `platform/policies/scripts/` for templates and automation).
+
+  ## 4 — Subscription Vending
+
+  What it is: automated subscription provisioning and bootstrap pipeline that creates Azure subscriptions via MCA Subscription Alias API, associates them with management groups, and deploys foundational resources (logging, diagnostics, governance).
+
+  Where to deploy: `subscription-vending/docs/README.md`, `subscription-vending/docs/PREREQUISITES.md`, and `subscription-vending/docs/DEPLOYMENT-GUIDE.md` (see `subscription-vending/scripts/` for deployment automation and `subscription-vending/config/` for subscription configuration).
 
  
 

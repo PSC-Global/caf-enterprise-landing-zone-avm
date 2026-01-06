@@ -1,0 +1,32 @@
+{
+  "cloud": {
+    "currentProfile": "AzureCloud",
+    "profiles": {
+      "AzureCloud": {
+        "resourceManagerEndpoint": "https://management.azure.com",
+        "activeDirectoryEndpoint": "https://login.microsoftonline.com"
+      }
+    }
+  },
+  "moduleAliases": {
+    "br": {
+      "public": {
+        "registry": "mcr.microsoft.com",
+        "modulePath": "bicep"
+      }
+    }
+  },
+  "analyzers": {
+    "core": {
+      "rules": {
+        "no-hardcoded-env-urls": {
+          "level": "warning"
+        },
+        "use-recent-module-versions": {
+          "level": "warning"
+        }
+      }
+    }
+  }
+}
+

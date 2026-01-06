@@ -1,0 +1,92 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.39.26.7824",
+      "templateHash": "11561228729250747628"
+    }
+  },
+  "parameters": {
+    "diagnosticSettingName": {
+      "type": "string",
+      "defaultValue": "subscription-diagnostics",
+      "metadata": {
+        "description": "Name of the diagnostic setting"
+      }
+    },
+    "logAnalyticsWorkspaceId": {
+      "type": "string",
+      "metadata": {
+        "description": "Log Analytics workspace resource ID"
+      }
+    },
+    "storageAccountId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Storage account resource ID (optional)"
+      }
+    },
+    "eventHubAuthorizationRuleId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Event Hub authorization rule resource ID (optional)"
+      }
+    },
+    "eventHubName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Event Hub name (optional)"
+      }
+    },
+    "enableAllLogs": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable all logs via categoryGroup"
+      }
+    },
+    "enableAllMetrics": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable all metrics"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "apiVersion": "2021-05-01-preview",
+      "name": "[parameters('diagnosticSettingName')]",
+      "properties": {
+        "workspaceId": "[parameters('logAnalyticsWorkspaceId')]",
+        "storageAccountId": "[if(not(empty(parameters('storageAccountId'))), parameters('storageAccountId'), null())]",
+        "eventHubAuthorizationRuleId": "[if(not(empty(parameters('eventHubAuthorizationRuleId'))), parameters('eventHubAuthorizationRuleId'), null())]",
+        "eventHubName": "[if(not(empty(parameters('eventHubName'))), parameters('eventHubName'), null())]",
+        "logs": "[if(parameters('enableAllLogs'), createArray(createObject('categoryGroup', 'allLogs', 'enabled', true())), createArray())]",
+        "metrics": "[if(parameters('enableAllMetrics'), createArray(createObject('category', 'AllMetrics', 'enabled', true())), createArray())]"
+      }
+    }
+  ],
+  "outputs": {
+    "name": {
+      "type": "string",
+      "metadata": {
+        "description": "Diagnostic setting name"
+      },
+      "value": "[parameters('diagnosticSettingName')]"
+    },
+    "resourceId": {
+      "type": "string",
+      "metadata": {
+        "description": "Diagnostic setting resource ID"
+      },
+      "value": "[subscriptionResourceId('Microsoft.Insights/diagnosticSettings', parameters('diagnosticSettingName'))]"
+    }
+  }
+}

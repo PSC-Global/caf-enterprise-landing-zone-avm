@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Subnet blueprint templates for different network roles and purposes",
+  "blueprints": {
+    "platform-standard": {
+      "description": "Standard platform subnet layout",
+      "subnets": [
+        {
+          "name": "management",
+          "size": 24,
+          "description": "Management subnet for platform resources"
+        },
+        {
+          "name": "networking",
+          "size": 24,
+          "description": "Networking infrastructure subnet"
+        }
+      ]
+    },
+    "platform-identity": {
+      "description": "Platform identity subnet layout",
+      "subnets": [
+        {
+          "name": "identity-services",
+          "size": 24,
+          "description": "Identity service resources"
+        },
+        {
+          "name": "management",
+          "size": 24,
+          "description": "Management subnet"
+        }
+      ]
+    },
+    "platform-logging": {
+      "description": "Platform logging and monitoring subnet layout",
+      "subnets": [
+        {
+          "name": "logging",
+          "size": 24,
+          "description": "Log Analytics and monitoring resources"
+        },
+        {
+          "name": "management",
+          "size": 24,
+          "description": "Management subnet"
+        }
+      ]
+    },
+    "vwan-hub": {
+      "description": "Virtual WAN hub subnet layout",
+      "subnets": [
+        {
+          "name": "AzureFirewallSubnet",
+          "size": 26,
+          "description": "Azure Firewall subnet (required, /26 minimum)"
+        },
+        {
+          "name": "GatewaySubnet",
+          "size": 27,
+          "description": "VPN Gateway subnet (optional, /27 minimum)"
+        }
+      ]
+    },
+    "spoke-standard": {
+      "description": "Standard spoke vNet subnet layout",
+      "subnets": [
+        {
+          "name": "workloads",
+          "size": 24,
+          "description": "Workload application subnets"
+        },
+        {
+          "name": "data",
+          "size": 24,
+          "description": "Data tier subnets"
+        },
+        {
+          "name": "management",
+          "size": 24,
+          "description": "Management and operations subnets"
+        }
+      ]
+    }
+  }
+}
+
+

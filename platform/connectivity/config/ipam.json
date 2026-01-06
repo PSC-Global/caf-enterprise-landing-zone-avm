@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "IPAM configuration for subscription networking. Keyed by subscription aliasName.",
+  "ipamConfig": {
+    "rai-platform-management-prod-01": {
+      "space": "rai",
+      "block": "rai-platform-mgmt",
+      "vnetCidrSizeHint": 22,
+      "subnetBlueprintKey": "platform-standard"
+    },
+    "rai-platform-identity-prod-01": {
+      "space": "rai",
+      "block": "rai-platform-identity",
+      "vnetCidrSizeHint": 23,
+      "subnetBlueprintKey": "platform-identity"
+    },
+    "rai-platform-connectivity-prod-01": {
+      "space": "rai",
+      "block": "rai-hub-aue",
+      "vnetCidrSizeHint": 23,
+      "subnetBlueprintKey": "vwan-hub"
+    },
+    "rai-platform-logging-prod-01": {
+      "space": "rai",
+      "block": "rai-platform-sharedsvc",
+      "vnetCidrSizeHint": 24,
+      "subnetBlueprintKey": "platform-logging"
+    }
+  }
+}
+
