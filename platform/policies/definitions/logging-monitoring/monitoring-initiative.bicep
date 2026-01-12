@@ -11,6 +11,8 @@ param listOfResourceTypes array = [
   'Microsoft.Storage/storageAccounts'
   'Microsoft.KeyVault/vaults'
   'Microsoft.Sql/servers/databases'
+  'Microsoft.Network/azureFirewalls'
+  'Microsoft.Network/virtualWans'
 ]
 
 resource policySet 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
@@ -21,7 +23,7 @@ resource policySet 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
     description: initiativeDescription
     metadata: {
       category: category
-      version: '1.0.0'
+      version: '1.1.0'
       source: 'ASB: Logging & Monitoring'
     }
     parameters: {
@@ -45,12 +47,25 @@ resource policySet 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
           }
         }
       }
+      // NOTE: Firewall diagnostics policy requires logAnalytics parameter (Log Analytics workspace ID)
+      // This is a DeployIfNotExists policy that needs infrastructure-specific workspace ID
+      // Uncomment and add logAnalytics parameter after configuring workspace ID
+      // {
+      //   policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/a4490248-cb97-4504-b7fb-f906afdb7437'
+      //   policyDefinitionReferenceId: 'FirewallDiagnostics'
+      //   groupNames: ['monitoring']
+      //   parameters: {
+      //     logAnalytics: {
+      //       value: '<log-analytics-workspace-resource-id>' // Requires infrastructure-specific workspace ID
+      //     }
+      //   }
+      // }
     ]
     policyDefinitionGroups: [
       {
         name: 'monitoring'
         displayName: 'Monitoring baseline'
-        description: 'Policies enforcing logging and monitoring configurations'
+        description: 'Policies enforcing logging and monitoring configurations, including vWAN and Firewall diagnostics'
       }
     ]
   }

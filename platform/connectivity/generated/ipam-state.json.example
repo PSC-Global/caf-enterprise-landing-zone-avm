@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "IPAM allocation state - tracks all CIDR allocations",
+  "lastUpdated": "2024-01-15T10:00:00Z",
+  "allocations": [
+    {
+      "allocationKey": "rai-lending-core-prod-01-workload",
+      "cidr": "10.1.5.0/24",
+      "cidrSize": 24,
+      "space": "rai",
+      "block": "rai-spokes-aue-prod",
+      "allocatedAt": "2024-01-15T10:00:00Z",
+      "status": "allocated"
+    }
+  ]
+}

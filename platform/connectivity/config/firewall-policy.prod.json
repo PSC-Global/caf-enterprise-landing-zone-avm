@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Firewall Policy configuration for production environment",
+  "parameters": {
+    "sharedEgressFqdns": [
+      "*.microsoft.com",
+      "*.azure.com",
+      "*.windowsupdate.com"
+    ],
+    "workloadEgressRules": [
+      {
+        "workloadName": "lending-core",
+        "fqdns": [
+          "api.example.com",
+          "*.example.com"
+        ]
+      }
+    ],
+    "inboundNonHttpServices": [
+      {
+        "name": "sftp-server-01",
+        "protocol": "TCP",
+        "publicPort": 22,
+        "privateIp": "10.1.100.10",
+        "privatePort": 22,
+        "allowedSourceIps": [
+          "0.0.0.0/0"
+        ]
+      }
+    ]
+  }
+}

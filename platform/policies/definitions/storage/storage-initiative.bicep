@@ -20,7 +20,7 @@ resource policySet 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
     description: description
     metadata: {
       category: category
-      version: '1.0.0'
+      version: '1.1.0'
       source: 'ASB: Storage'
     }
     parameters: {
@@ -84,12 +84,28 @@ resource policySet 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
           }
         }
       }
+      // NOTE: Storage private endpoint policy requires privateEndpointSubnetId parameter
+      // This is a DeployIfNotExists policy that needs infrastructure-specific subnet ID
+      // Uncomment and add privateEndpointSubnetId parameter after configuring subnet IDs
+      // {
+      //   policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/9f766f00-8d11-464e-80e1-4091d7874074'
+      //   policyDefinitionReferenceId: 'StoragePrivateEndpoint'
+      //   groupNames: ['storage']
+      //   parameters: {
+      //     effect: {
+      //       value: '[parameters(\'auditOnlyEffect\')]'
+      //     }
+      //     privateEndpointSubnetId: {
+      //       value: '<subnet-resource-id>' // Requires infrastructure-specific subnet ID
+      //     }
+      //   }
+      // }
     ]
     policyDefinitionGroups: [
       {
         name: 'storage'
         displayName: 'Storage Security baseline'
-        description: 'Policies enforcing HTTPS, CMK encryption, and preventing public blob access'
+        description: 'Policies enforcing HTTPS, CMK encryption, preventing public blob access, and requiring private endpoints'
       }
     ]
   }

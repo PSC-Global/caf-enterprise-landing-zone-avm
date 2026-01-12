@@ -3,7 +3,10 @@
     "asset-management-baseline": { "effect": "Audit" },
     "backup-baseline": { "effect": "AuditIfNotExists" },
     "compute-baseline": { "effect": "Audit" },
-    "data-protection-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
+    "data-protection-baseline": {
+      "auditIfNotExistsEffect": "AuditIfNotExists",
+      "keyVaultPrivateEndpointEffect": "Audit"
+    },
     "devops-baseline": { "effect": "Audit" },
     "governance-baseline": { "effect": "Deny" },
     "identity-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
@@ -12,11 +15,16 @@
         "Microsoft.Compute/virtualMachines",
         "Microsoft.Storage/storageAccounts",
         "Microsoft.KeyVault/vaults",
-        "Microsoft.Sql/servers/databases"
+        "Microsoft.Sql/servers/databases",
+        "Microsoft.Network/azureFirewalls",
+        "Microsoft.Network/virtualWans"
       ]
     },
     "misc-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
-    "network-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
+    "network-baseline": {
+      "auditIfNotExistsEffect": "AuditIfNotExists",
+      "denyEffect": "Deny"
+    },
     "defender-baseline": { "auditIfNotExistsEffect": "AuditIfNotExists" },
     "storage-baseline": { "effect": "Audit" }
   }

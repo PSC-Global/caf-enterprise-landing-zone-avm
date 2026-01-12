@@ -25,6 +25,12 @@
       "block": "rai-platform-sharedsvc",
       "vnetCidrSizeHint": 24,
       "subnetBlueprintKey": "platform-logging"
+    },
+    "rai-lending-core-prod-01": {
+      "space": "rai",
+      "block": "rai-spokes-aue-prod",
+      "vnetCidrSizeHint": 24,
+      "subnetBlueprintKey": "spoke.workload.standard"
     }
   }
 }

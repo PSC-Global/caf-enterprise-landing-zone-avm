@@ -4,7 +4,7 @@
     {
       "aliasName": "rai-platform-management-prod-01",
       "displayName": "rai-platform-management-prod-01",
-      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/YOUR-BILLING-ACCOUNT-ID/billingProfiles/YOUR-BILLING-PROFILE-ID/invoiceSections/YOUR-INVOICE-SECTION-ID",
       "targetMg": "platform-management",
       "role": "platform",
       "primaryRegion": "australiaeast",
@@ -17,7 +17,7 @@
     {
       "aliasName": "rai-platform-identity-prod-01",
       "displayName": "rai-platform-identity-prod-01",
-      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/YOUR-BILLING-ACCOUNT-ID/billingProfiles/YOUR-BILLING-PROFILE-ID/invoiceSections/YOUR-INVOICE-SECTION-ID",
       "targetMg": "platform-identity",
       "role": "platform",
       "primaryRegion": "australiaeast",
@@ -35,7 +35,7 @@
     {
       "aliasName": "rai-platform-connectivity-prod-01",
       "displayName": "rai-platform-connectivity-prod-01",
-      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/YOUR-BILLING-ACCOUNT-ID/billingProfiles/YOUR-BILLING-PROFILE-ID/invoiceSections/YOUR-INVOICE-SECTION-ID",
       "targetMg": "platform-connectivity",
       "role": "hub",
       "primaryRegion": "australiaeast",
@@ -53,7 +53,7 @@
     {
       "aliasName": "rai-platform-logging-prod-01",
       "displayName": "rai-platform-logging-prod-01",
-      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/YOUR-BILLING-ACCOUNT-ID/billingProfiles/YOUR-BILLING-PROFILE-ID/invoiceSections/YOUR-INVOICE-SECTION-ID",
       "targetMg": "platform-management",
       "role": "platform",
       "primaryRegion": "australiaeast",
@@ -71,7 +71,7 @@
     {
       "aliasName": "rai-fraud-engine-prod-01",
       "displayName": "rai-fraud-engine-prod-01",
-      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/YOUR-BILLING-ACCOUNT-ID/billingProfiles/YOUR-BILLING-PROFILE-ID/invoiceSections/YOUR-INVOICE-SECTION-ID",
       "targetMg": "online",
       "role": "workload",
       "primaryRegion": "australiaeast",
@@ -84,7 +84,7 @@
     {
       "aliasName": "rai-lending-core-prod-01",
       "displayName": "rai-lending-core-prod-01",
-      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/YOUR-BILLING-ACCOUNT-ID/billingProfiles/YOUR-BILLING-PROFILE-ID/invoiceSections/YOUR-INVOICE-SECTION-ID",
       "targetMg": "online",
       "role": "workload",
       "primaryRegion": "australiaeast",
@@ -92,12 +92,35 @@
       "archetype": "online-workload",
       "tags": {
         "costCenter": "IT-LENDING"
+      },
+      "drSubscription": {
+        "enabled": false,
+        "primaryRegion": "australiasoutheast",
+        "drMode": "active-active"
+      }
+    },
+    {
+      "aliasName": "rai-customer-portal-prod01",
+      "displayName": "rai-customer-portal-prod01",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/YOUR-BILLING-ACCOUNT-ID/billingProfiles/YOUR-BILLING-PROFILE-ID/invoiceSections/YOUR-INVOICE-SECTION-ID",
+      "targetMg": "online",
+      "role": "workload",
+      "primaryRegion": "australiaeast",
+      "ownerAadGroup": "Customer-Portal-Owners",
+      "archetype": "online-workload",
+      "tags": {
+        "costCenter": "IT-CUSTOMER-PORTAL"
+      },
+      "drSubscription": {
+        "enabled": false,
+        "primaryRegion": "australiasoutheast",
+        "drMode": "active-active"
       }
     },
     {
       "aliasName": "rai-sandbox-dev-01",
       "displayName": "rai-sandbox-dev-01",
-      "billingScope": "/providers/Microsoft.Billing/billingAccounts/d36492e8-d509-51ee-1f74-74e4eebc6559:c008f2fd-b18a-4631-84b1-cadcf244af11_2019-05-31/billingProfiles/N5VT-LLSF-BG7-PGB/invoiceSections/7D6M-GK3C-PJA-PGB",
+      "billingScope": "/providers/Microsoft.Billing/billingAccounts/YOUR-BILLING-ACCOUNT-ID/billingProfiles/YOUR-BILLING-PROFILE-ID/invoiceSections/YOUR-INVOICE-SECTION-ID",
       "targetMg": "sandbox",
       "role": "sandbox",
       "primaryRegion": "australiaeast",

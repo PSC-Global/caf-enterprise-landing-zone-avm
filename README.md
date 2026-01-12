@@ -60,6 +60,12 @@ landing-zones/
 
   Where to deploy: `subscription-vending/docs/README.md`, `subscription-vending/docs/PREREQUISITES.md`, and `subscription-vending/docs/DEPLOYMENT-GUIDE.md` (see `subscription-vending/scripts/` for deployment automation and `subscription-vending/config/` for subscription configuration).
 
+  ## 5 — Connectivity & Networking
+
+  What it is: Virtual WAN hub and spoke networking infrastructure with Azure Firewall, routing policies, Private DNS zones, and IP address management (IPAM) for centralized network resource deployment.
+
+  Where to deploy: `platform/connectivity/docs/PROD-DEPLOYMENT-RUNBOOK.md` provides step-by-step instructions for deploying hub and spoke networking infrastructure (see `platform/connectivity/scripts/` for deployment automation, `platform/connectivity/config/` for IPAM and subnet blueprints, and `platform/connectivity/docs/IPAM-SETUP.md` for IPAM configuration).
+
  
 
 

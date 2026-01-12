@@ -1,0 +1,91 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "prod"
+    },
+    "location": {
+      "value": "australiaeast"
+    },
+    "tags": {
+      "value": {
+        "costCenter": "IT-PLATFORM",
+        "managedBy": "platform-logging",
+        "environment": "prod",
+        "purpose": "central-logging"
+      }
+    },
+    "logAnalyticsWorkspaceName": {
+      "value": "law-rai-prod-aue-platform-01"
+    },
+    "resourceGroupName": {
+      "value": "rg-rai-prod-aue-logging-01"
+    },
+    "retentionInDays": {
+      "value": 90
+    },
+    "skuName": {
+      "value": "PerGB2018"
+    },
+    "dailyQuotaGb": {
+      "value": -1
+    },
+    "enableWorkspaceDiagnostics": {
+      "value": false
+    },
+    "diagnosticStorageAccountId": {
+      "value": ""
+    },
+    "actionGroupConfigs": {
+      "value": [
+        {
+          "name": "ag-rai-prod-aue-platform-critical",
+          "shortName": "pltfrm-crit",
+          "enabled": true,
+          "type": "critical",
+          "emailReceivers": [
+            {
+              "name": "PlatformTeam",
+              "emailAddress": "platform-team@example.com",
+              "useCommonAlertSchema": true
+            }
+          ],
+          "smsReceivers": [],
+          "webhookReceivers": [],
+          "azureAppPushReceivers": [],
+          "itsmReceivers": [],
+          "automationRunbookReceivers": [],
+          "voiceReceivers": [],
+          "logicAppReceivers": [],
+          "azureFunctionReceivers": [],
+          "armRoleReceivers": [],
+          "eventHubReceivers": []
+        },
+        {
+          "name": "ag-rai-prod-aue-platform-warning",
+          "shortName": "pltfrm-warn",
+          "enabled": true,
+          "type": "warning",
+          "emailReceivers": [
+            {
+              "name": "PlatformTeam",
+              "emailAddress": "platform-team@example.com",
+              "useCommonAlertSchema": true
+            }
+          ],
+          "smsReceivers": [],
+          "webhookReceivers": [],
+          "azureAppPushReceivers": [],
+          "itsmReceivers": [],
+          "automationRunbookReceivers": [],
+          "voiceReceivers": [],
+          "logicAppReceivers": [],
+          "azureFunctionReceivers": [],
+          "armRoleReceivers": [],
+          "eventHubReceivers": []
+        }
+      ]
+    }
+  }
+}

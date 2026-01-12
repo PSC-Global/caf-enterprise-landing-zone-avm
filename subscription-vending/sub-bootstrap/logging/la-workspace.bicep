@@ -4,18 +4,30 @@
 // Purpose: Creates a Log Analytics workspace for diagnostics and monitoring
 // Scope: Resource Group
 // AVM: avm/res/operational-insights/workspace
+// Contract: Follows platform/shared/contract.bicep standards
 // =============================================================================
 
 targetScope = 'resourceGroup'
 
-@description('Workspace name')
-param workspaceName string
+// -----------------------------------------------------------------------------
+// Standard Platform Parameters (from platform/shared/contract.bicep)
+// -----------------------------------------------------------------------------
 
-@description('Location for the workspace')
+@description('Deployment environment')
+param environment string = 'prod'
+
+@description('Azure region for resource deployment')
 param location string
 
-@description('Tags to apply to the workspace')
+@description('Tags to apply to all resources')
 param tags object
+
+// -----------------------------------------------------------------------------
+// Module-Specific Parameters
+// -----------------------------------------------------------------------------
+
+@description('Workspace name')
+param workspaceName string
 
 @description('Data retention in days')
 @minValue(30)
@@ -75,15 +87,20 @@ module workspace 'br/public:avm/res/operational-insights/workspace:0.9.1' = {
 // =============================================================================
 // Outputs
 // =============================================================================
+// Standard outputs following platform/shared/contract.bicep naming conventions
 
 @description('Log Analytics workspace name')
 output name string = workspace.outputs.name
 
-@description('Log Analytics workspace resource ID')
-output resourceId string = workspace.outputs.resourceId
+@description('Log Analytics Workspace resource ID (standard output)')
+output logAnalyticsWorkspaceResourceId string = workspace.outputs.resourceId
 
-@description('Log Analytics workspace ID (for linking)')
+@description('Log Analytics workspace ID (for linking to resources)')
 output workspaceId string = workspace.outputs.logAnalyticsWorkspaceId
 
 @description('Location')
 output location string = location
+
+// Legacy output names (deprecated - use standard names above)
+@description('DEPRECATED: Use logAnalyticsWorkspaceResourceId instead')
+output resourceId string = workspace.outputs.resourceId

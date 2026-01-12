@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Inbound services configuration for Azure Firewall DNAT rules (Phase 7.1)",
+  "inboundServices": [
+    {
+      "name": "sftp-server-01",
+      "description": "SFTP server for secure file transfers",
+      "protocol": "TCP",
+      "publicPort": 22,
+      "privateIp": "10.1.100.10",
+      "privatePort": 22,
+      "allowedSourceIps": [
+        "0.0.0.0/0"
+      ]
+    },
+    {
+      "name": "rdp-jumpbox",
+      "description": "RDP jumpbox for administrative access (restricted sources)",
+      "protocol": "TCP",
+      "publicPort": 3389,
+      "privateIp": "10.1.100.20",
+      "privatePort": 3389,
+      "allowedSourceIps": [
+        "203.0.113.0/24"
+      ]
+    },
+    {
+      "name": "custom-tcp-service",
+      "description": "Custom TCP service example",
+      "protocol": "TCP",
+      "publicPort": 8443,
+      "privateIp": "10.1.100.30",
+      "privatePort": 8443,
+      "allowedSourceIps": [
+        "198.51.100.0/24",
+        "203.0.113.0/24"
+      ]
+    }
+  ]
+}

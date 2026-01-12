@@ -8,12 +8,20 @@
         {
           "name": "management",
           "size": 24,
-          "description": "Management subnet for platform resources"
+          "cidrSize": 24,
+          "description": "Management subnet for platform resources",
+          "purpose": "management",
+          "associateNsg": true,
+          "associateRouteTable": false
         },
         {
           "name": "networking",
           "size": 24,
-          "description": "Networking infrastructure subnet"
+          "cidrSize": 24,
+          "description": "Networking infrastructure subnet",
+          "purpose": "networking",
+          "associateNsg": true,
+          "associateRouteTable": false
         }
       ]
     },
@@ -23,12 +31,20 @@
         {
           "name": "identity-services",
           "size": 24,
-          "description": "Identity service resources"
+          "cidrSize": 24,
+          "description": "Identity service resources",
+          "purpose": "identity",
+          "associateNsg": true,
+          "associateRouteTable": false
         },
         {
           "name": "management",
           "size": 24,
-          "description": "Management subnet"
+          "cidrSize": 24,
+          "description": "Management subnet",
+          "purpose": "management",
+          "associateNsg": true,
+          "associateRouteTable": false
         }
       ]
     },
@@ -38,12 +54,20 @@
         {
           "name": "logging",
           "size": 24,
-          "description": "Log Analytics and monitoring resources"
+          "cidrSize": 24,
+          "description": "Log Analytics and monitoring resources",
+          "purpose": "logging",
+          "associateNsg": true,
+          "associateRouteTable": false
         },
         {
           "name": "management",
           "size": 24,
-          "description": "Management subnet"
+          "cidrSize": 24,
+          "description": "Management subnet",
+          "purpose": "management",
+          "associateNsg": true,
+          "associateRouteTable": false
         }
       ]
     },
@@ -53,32 +77,178 @@
         {
           "name": "AzureFirewallSubnet",
           "size": 26,
-          "description": "Azure Firewall subnet (required, /26 minimum)"
+          "cidrSize": 26,
+          "description": "Azure Firewall subnet (required, /26 minimum)",
+          "purpose": "firewall",
+          "associateNsg": false,
+          "associateRouteTable": false
         },
         {
           "name": "GatewaySubnet",
           "size": 27,
-          "description": "VPN Gateway subnet (optional, /27 minimum)"
+          "cidrSize": 27,
+          "description": "VPN Gateway subnet (optional, /27 minimum)",
+          "purpose": "gateway",
+          "associateNsg": false,
+          "associateRouteTable": false
         }
       ]
     },
     "spoke-standard": {
-      "description": "Standard spoke vNet subnet layout",
+      "description": "Standard spoke vNet subnet layout (legacy - use profiles instead)",
       "subnets": [
         {
           "name": "workloads",
           "size": 24,
-          "description": "Workload application subnets"
+          "cidrSize": 24,
+          "description": "Workload application subnets",
+          "purpose": "workload",
+          "associateNsg": true,
+          "associateRouteTable": false
         },
         {
           "name": "data",
           "size": 24,
-          "description": "Data tier subnets"
+          "cidrSize": 24,
+          "description": "Data tier subnets",
+          "purpose": "data",
+          "associateNsg": true,
+          "associateRouteTable": false
         },
         {
           "name": "management",
           "size": 24,
-          "description": "Management and operations subnets"
+          "cidrSize": 24,
+          "description": "Management and operations subnets",
+          "purpose": "management",
+          "associateNsg": true,
+          "associateRouteTable": false
+        }
+      ]
+    }
+  },
+  "profiles": {
+    "spoke.workload.standard": {
+      "description": "Standard workload spoke subnet profile",
+      "subnets": [
+        {
+          "name": "snet-workload",
+          "cidrSize": 26,
+          "purpose": "workload",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Workload application subnet"
+        },
+        {
+          "name": "snet-private-endpoints",
+          "cidrSize": 27,
+          "purpose": "private-endpoints",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Private endpoints subnet (mandatory for workload profiles)"
+        },
+        {
+          "name": "snet-integration",
+          "cidrSize": 27,
+          "purpose": "integration",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Integration services subnet"
+        },
+        {
+          "name": "snet-mgmt",
+          "cidrSize": 27,
+          "purpose": "management",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Management subnet"
+        }
+      ]
+    },
+    "spoke.workload.private-endpoints": {
+      "description": "Workload spoke with focus on private endpoints",
+      "subnets": [
+        {
+          "name": "snet-workload",
+          "cidrSize": 26,
+          "purpose": "workload",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Workload application subnet"
+        },
+        {
+          "name": "snet-private-endpoints",
+          "cidrSize": 26,
+          "purpose": "private-endpoints",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Private endpoints subnet (mandatory for workload profiles)"
+        },
+        {
+          "name": "snet-mgmt",
+          "cidrSize": 27,
+          "purpose": "management",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Management subnet"
+        }
+      ]
+    },
+    "spoke.ingress.appgw": {
+      "description": "Ingress spoke with Application Gateway",
+      "subnets": [
+        {
+          "name": "snet-appgw",
+          "cidrSize": 26,
+          "purpose": "appgw",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Application Gateway subnet (mandatory for ingress profile)"
+        },
+        {
+          "name": "snet-workload",
+          "cidrSize": 26,
+          "purpose": "workload",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Backend workload subnet"
+        },
+        {
+          "name": "snet-private-endpoints",
+          "cidrSize": 27,
+          "purpose": "private-endpoints",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Private endpoints subnet"
+        }
+      ]
+    },
+    "spoke.shared-services": {
+      "description": "Shared services spoke subnet profile",
+      "subnets": [
+        {
+          "name": "snet-shared",
+          "cidrSize": 25,
+          "purpose": "shared-services",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Shared services subnet"
+        },
+        {
+          "name": "snet-integration",
+          "cidrSize": 26,
+          "purpose": "integration",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Integration services subnet"
+        },
+        {
+          "name": "snet-mgmt",
+          "cidrSize": 27,
+          "purpose": "management",
+          "associateNsg": true,
+          "associateRouteTable": false,
+          "description": "Management subnet"
         }
       ]
     }

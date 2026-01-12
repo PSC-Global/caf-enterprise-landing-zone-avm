@@ -1,0 +1,180 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.39.26.7824",
+      "templateHash": "1919689227468269690"
+    }
+  },
+  "parameters": {
+    "initiativeName": {
+      "type": "string",
+      "defaultValue": "network-baseline",
+      "metadata": {
+        "description": "Name of the initiative (policy set definition)."
+      }
+    },
+    "displayName": {
+      "type": "string",
+      "defaultValue": "Network Baseline",
+      "metadata": {
+        "description": "Display name for the initiative."
+      }
+    },
+    "initiativeDescription": {
+      "type": "string",
+      "defaultValue": "Baseline network security guardrails using built-in policies aligned with ASB Network Security domain.",
+      "metadata": {
+        "description": "Description for the initiative."
+      }
+    },
+    "category": {
+      "type": "string",
+      "defaultValue": "Network",
+      "metadata": {
+        "description": "ASB domain category."
+      }
+    },
+    "auditIfNotExistsEffect": {
+      "type": "string",
+      "defaultValue": "AuditIfNotExists",
+      "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+      ],
+      "metadata": {
+        "description": "Effect for policies that only support AuditIfNotExists/Disabled."
+      }
+    },
+    "denyEffect": {
+      "type": "string",
+      "defaultValue": "Deny",
+      "allowedValues": [
+        "Deny",
+        "Audit",
+        "Disabled"
+      ],
+      "metadata": {
+        "description": "Effect for policies that support Deny/Audit/Disabled (e.g., VNet peering denial)."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/policySetDefinitions",
+      "apiVersion": "2023-04-01",
+      "name": "[parameters('initiativeName')]",
+      "properties": {
+        "policyType": "Custom",
+        "displayName": "[parameters('displayName')]",
+        "description": "[parameters('initiativeDescription')]",
+        "metadata": {
+          "category": "[parameters('category')]",
+          "version": "1.1.0",
+          "source": "ASB: Network Security"
+        },
+        "parameters": {
+          "auditIfNotExistsEffect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "AuditIfNotExists Effect",
+              "description": "Effect for policies that support AuditIfNotExists/Disabled only"
+            },
+            "allowedValues": [
+              "AuditIfNotExists",
+              "Disabled"
+            ],
+            "defaultValue": "[parameters('auditIfNotExistsEffect')]"
+          },
+          "denyEffect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Deny Effect",
+              "description": "Effect for policies that support Deny/Audit/Disabled (e.g., VNet peering)"
+            },
+            "allowedValues": [
+              "Deny",
+              "Audit",
+              "Disabled"
+            ],
+            "defaultValue": "[parameters('denyEffect')]"
+          }
+        },
+        "policyDefinitions": [
+          {
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e71308d3-144b-4262-b144-efdc3cc90517",
+            "policyDefinitionReferenceId": "SubnetsAssociatedWithNSG",
+            "groupNames": [
+              "network"
+            ],
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('auditIfNotExistsEffect')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bb91dfba-c30d-4263-9add-9c2384e659a6",
+            "policyDefinitionReferenceId": "NonInternetVMsProtectedByNSG",
+            "groupNames": [
+              "network"
+            ],
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('auditIfNotExistsEffect')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a7aca53f-2ed4-4466-a25e-0b45ade68efd",
+            "policyDefinitionReferenceId": "DDoSProtectionEnabled",
+            "groupNames": [
+              "network"
+            ],
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('auditIfNotExistsEffect')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b0f33259-77d7-4c9e-aac6-3aabcfae693c",
+            "policyDefinitionReferenceId": "JITNetworkAccess",
+            "groupNames": [
+              "network"
+            ],
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('auditIfNotExistsEffect')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ffa5aa5d-a9da-4439-b01e-0b9f3df73ff7",
+            "policyDefinitionReferenceId": "DenyVNetPeering",
+            "groupNames": [
+              "network"
+            ],
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('denyEffect')]"
+              },
+              "listOfApprovedVNetPeerings": {
+                "value": "[[]"
+              }
+            }
+          }
+        ],
+        "policyDefinitionGroups": [
+          {
+            "name": "network",
+            "displayName": "Network Security baseline",
+            "description": "Policies enforcing network segmentation, NSGs, DDoS protection, JIT access, and VNet peering restrictions"
+          }
+        ]
+      }
+    }
+  ]
+}

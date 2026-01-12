@@ -4,23 +4,41 @@
 // Purpose: Deploys a spoke VNet and connects it to the vWAN hub
 // Scope: Resource Group
 // AVM: avm/res/network/virtual-network
+// Contract: Follows platform/shared/contract.bicep standards
 // =============================================================================
 
 targetScope = 'resourceGroup'
 
-@description('Virtual network name')
-param vnetName string
+// -----------------------------------------------------------------------------
+// Standard Platform Parameters (from platform/shared/contract.bicep)
+// -----------------------------------------------------------------------------
 
-@description('Location for the virtual network')
+@description('Deployment environment')
+param environment string = 'prod'
+
+@description('Azure region for resource deployment')
 param location string
 
-@description('Tags to apply to the virtual network')
+@description('Tags to apply to all resources')
 param tags object
+
+@description('Log Analytics Workspace resource ID for diagnostics')
+param logAnalyticsWorkspaceResourceId string = ''
+
+// -----------------------------------------------------------------------------
+// Module-Specific Parameters
+// -----------------------------------------------------------------------------
+
+@description('Virtual network name')
+param vnetName string
 
 @description('VNet address prefixes (from IPAM or manual)')
 param addressPrefixes array
 
-@description('Subnets configuration')
+@description('Subnet profile name (for documentation/reference, subnets array takes precedence)')
+param subnetProfileName string = ''
+
+@description('Subnets configuration (generated from subnetProfileName or provided directly)')
 param subnets array = []
 
 @description('Enable DDoS protection')
@@ -32,11 +50,14 @@ param ddosProtectionPlanId string = ''
 @description('Virtual Hub resource ID for connection')
 param virtualHubResourceId string = ''
 
+@description('Virtual Hub name (for connection name generation)')
+param virtualHubName string = ''
+
+@description('Route table resource ID for forced egress (optional)')
+param routeTableResourceId string = ''
+
 @description('Enable Internet security (route to firewall)')
 param enableInternetSecurity bool = true
-
-@description('Log Analytics workspace resource ID for diagnostics')
-param logAnalyticsWorkspaceId string = ''
 
 @description('DNS servers (empty array for Azure-provided DNS)')
 param dnsServers array = []
@@ -55,10 +76,10 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.5.1' = {
     subnets: subnets
     dnsServers: dnsServers
     ddosProtectionPlanResourceId: enableDdosProtection ? ddosProtectionPlanId : ''
-    diagnosticSettings: !empty(logAnalyticsWorkspaceId) ? [
+    diagnosticSettings: !empty(logAnalyticsWorkspaceResourceId) ? [
       {
         name: 'vnet-diagnostics'
-        workspaceResourceId: logAnalyticsWorkspaceId
+        workspaceResourceId: logAnalyticsWorkspaceResourceId
         logCategoriesAndGroups: [
           {
             categoryGroup: 'allLogs'
@@ -79,10 +100,13 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.5.1' = {
 // =============================================================================
 // Note: AVM for virtual-hub doesn't yet fully support connections, so we use
 // native Bicep for the hub connection as a child resource.
+// Phase 4.2: Supports route table association for forced egress
 // =============================================================================
 
-resource hubConnection 'Microsoft.Network/virtualHubs/hubVirtualNetworkConnections@2024-01-01' = if (!empty(virtualHubResourceId)) {
-  name: '${last(split(virtualHubResourceId, '/'))}/${vnetName}-connection'
+var hubName = !empty(virtualHubName) ? virtualHubName : last(split(virtualHubResourceId, '/'))
+
+resource hubConnection 'Microsoft.Network/virtualHubs/hubVirtualNetworkConnections@2024-03-01' = if (!empty(virtualHubResourceId)) {
+  name: '${hubName}/${vnetName}-connection'
   properties: {
     remoteVirtualNetwork: {
       id: virtualNetwork.outputs.resourceId
@@ -90,6 +114,24 @@ resource hubConnection 'Microsoft.Network/virtualHubs/hubVirtualNetworkConnectio
     allowHubToRemoteVnetTransit: true
     allowRemoteVnetToUseHubVnetGateways: true
     enableInternetSecurity: enableInternetSecurity
+    routingConfiguration: !empty(routeTableResourceId) ? {
+      associatedRouteTable: {
+        id: routeTableResourceId
+      }
+      propagatedRouteTables: {
+        labels: [
+          'default'
+        ]
+        ids: [
+          {
+            id: routeTableResourceId
+          }
+        ]
+      }
+      vnetRoutes: {
+        staticRoutes: []
+      }
+    } : null
   }
 }
 

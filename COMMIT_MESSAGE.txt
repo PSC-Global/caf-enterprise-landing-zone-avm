@@ -1,0 +1,37 @@
+Add hub connection deployment and connectivity infrastructure enhancements
+
+## Features Added
+
+### Hub Connection Deployment
+- Implemented cross-subscription hub connection deployment capability
+- Added `Deploy-VnetConnection` function to deploy Virtual Hub VNet connections to hub subscription
+- Enhanced `Invoke-SpokeDeployment` with two-phase deployment: VNet deployment followed by hub connection creation
+- Automatic hub discovery and connection establishment for spoke VNets
+
+### Connectivity Infrastructure Modules
+- Added new Bicep modules for connectivity infrastructure:
+  - `vnet-connection.bicep` - Virtual Hub VNet connection with route table association
+  - `hub-core.bicep` - Virtual WAN hub core infrastructure
+  - `firewall.bicep` - Azure Firewall deployment
+  - `firewall-policy.bicep` - Firewall policy configuration
+  - `route-intent.bicep` - Routing intent and route tables
+  - `private-dns-zones.bicep` - Private DNS zone management
+  - `app-gateway-waf.bicep` - Application Gateway with WAF
+
+### Configuration Enhancements
+- Extended IPAM configuration with spoke workload block support (`rai-spokes-aue-prod`)
+- Enhanced subnet blueprint system with profile-based configuration
+- Added connectivity configuration files for production deployments
+- Improved subnet blueprint lookup supporting multiple configuration formats
+
+### Deployment Orchestration
+- Enhanced deployment functions with improved error handling and logging
+- Added robust temporary file management for complex parameter handling
+- Improved subscription alias resolution with comprehensive error reporting
+- Multi-platform path resolution support
+
+### Documentation
+- Added production deployment runbook (`platform/connectivity/docs/PROD-DEPLOYMENT-RUNBOOK.md`)
+- Updated main README with Connectivity & Networking section
+- Added subscription configuration template (`subscriptions.json.example`)
+- Enhanced documentation structure for better navigation

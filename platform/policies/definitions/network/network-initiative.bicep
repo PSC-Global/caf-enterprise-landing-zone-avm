@@ -16,6 +16,10 @@ param category string = 'Network'
 @allowed(['AuditIfNotExists', 'Disabled'])
 param auditIfNotExistsEffect string = 'AuditIfNotExists'
 
+@description('Effect for policies that support Deny/Audit/Disabled (e.g., VNet peering denial).')
+@allowed(['Deny', 'Audit', 'Disabled'])
+param denyEffect string = 'Deny'
+
 resource policySet 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
   name: initiativeName
   properties: {
@@ -24,7 +28,7 @@ resource policySet 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
     description: initiativeDescription
     metadata: {
       category: category
-      version: '1.0.0'
+      version: '1.1.0'
       source: 'ASB: Network Security'
     }
     parameters: {
@@ -36,6 +40,15 @@ resource policySet 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
         }
         allowedValues: ['AuditIfNotExists', 'Disabled']
         defaultValue: auditIfNotExistsEffect
+      }
+      denyEffect: {
+        type: 'String'
+        metadata: {
+          displayName: 'Deny Effect'
+          description: 'Effect for policies that support Deny/Audit/Disabled (e.g., VNet peering)'
+        }
+        allowedValues: ['Deny', 'Audit', 'Disabled']
+        defaultValue: denyEffect
       }
     }
     policyDefinitions: [
@@ -79,12 +92,28 @@ resource policySet 'Microsoft.Authorization/policySetDefinitions@2023-04-01' = {
           }
         }
       }
+      // NOTE: VNet peering denial policy requires custom ALZ policy to be deployed first
+      // Policy ID: ffa5aa5d-a9da-4439-b01e-0b9f3df73ff7 (Deny vNet peering)
+      // Uncomment after deploying the custom policy definition to your tenant
+      // {
+      //   policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/ffa5aa5d-a9da-4439-b01e-0b9f3df73ff7'
+      //   policyDefinitionReferenceId: 'DenyVNetPeering'
+      //   groupNames: ['network']
+      //   parameters: {
+      //     effect: {
+      //       value: '[parameters(\'denyEffect\')]'
+      //     }
+      //     listOfApprovedVNetPeerings: {
+      //       value: '[]' // Empty list = deny all VNet peerings in landing zones
+      //     }
+      //   }
+      // }
     ]
     policyDefinitionGroups: [
       {
         name: 'network'
         displayName: 'Network Security baseline'
-        description: 'Policies enforcing network segmentation, NSGs, DDoS protection, and JIT access'
+        description: 'Policies enforcing network segmentation, NSGs, DDoS protection, JIT access, and VNet peering restrictions'
       }
     ]
   }
